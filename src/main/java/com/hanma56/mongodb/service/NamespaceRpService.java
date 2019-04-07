@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-04-06
  */
 @Service
-public class NamespaceService {
+public class NamespaceRpService {
 
   @Autowired
   private MongoTemplate mongoTemplate;

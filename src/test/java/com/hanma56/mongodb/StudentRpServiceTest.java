@@ -1,7 +1,7 @@
 package com.hanma56.mongodb;
 
 import com.hanma56.mongodb.entity.Student;
-import com.hanma56.mongodb.entity.StudentRepository;
+import com.hanma56.mongodb.service.StudentRpService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StudentRepositoryTest {
+public class StudentRpServiceTest {
 
   @Autowired
-  private StudentRepository studentRepository;
+  private StudentRpService studentRpService;
 
   @Test
   public void save() {
@@ -30,7 +30,7 @@ public class StudentRepositoryTest {
     student.setAge(12);
     student.setCreated(new Date());
     student.setUpdated(new Date());
-    studentRepository.save(student);
+    studentRpService.save(student);
     System.out.println(student);
   }
 
@@ -47,13 +47,13 @@ public class StudentRepositoryTest {
       BeanUtils.copyProperties(student,temp);
       students.add(temp);
     }
-    studentRepository.saveAll(students);
+    studentRpService.saveAll(students);
     System.out.println(students);
   }
 
   @Test
   public void findAll() {
-    List<Student> students = studentRepository.findAll();
+    List<Student> students = studentRpService.findAll();
     System.out.println(students);
   }
 

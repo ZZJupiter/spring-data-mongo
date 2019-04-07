@@ -1,7 +1,7 @@
 package com.hanma56.mongodb;
 
 import com.hanma56.mongodb.entity.Namespace;
-import com.hanma56.mongodb.service.NamespaceService;
+import com.hanma56.mongodb.service.NamespaceRpService;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.mongodb.core.MongoClientFactoryBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -20,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MongodbTestApplicationTests {
 
   @Autowired
-  private NamespaceService namespaceService;
+  private NamespaceRpService namespaceRpService;
 
   @Autowired
   private MongoClient mongoClient;
@@ -40,12 +39,12 @@ public class MongodbTestApplicationTests {
       temp.setCode(temp.getCode()+i);
       namespaces.add(temp);
     }
-    namespaceService.saveBatch(namespaces);
-    namespaceService.save(namespace);
+    namespaceRpService.saveBatch(namespaces);
+    namespaceRpService.save(namespace);
     System.out.println(namespace);
-    Namespace namespaceSaved = namespaceService.queryById(namespace.getId());
+    Namespace namespaceSaved = namespaceRpService.queryById(namespace.getId());
     System.out.println(namespaceSaved);
-    Page<Namespace> page = namespaceService.queryByCode("name", "1", 1L, 3L);
+    Page<Namespace> page = namespaceRpService.queryByCode("name", "1", 1L, 3L);
     System.out.println(page);
   }
 
