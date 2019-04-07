@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:hanma56=123@dds-bp111c0f125606e41193-pub.mongodb.rds.aliyuncs.com:3717,dds-bp111c0f125606e42193-pub.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-11918229
