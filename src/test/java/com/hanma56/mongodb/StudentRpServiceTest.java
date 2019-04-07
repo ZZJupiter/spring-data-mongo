@@ -4,7 +4,10 @@ import com.hanma56.mongodb.entity.Student;
 import com.hanma56.mongodb.service.StudentRpService;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author catface
  * @date 2019-04-07
  */
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StudentRpServiceTest {
@@ -112,6 +116,44 @@ public class StudentRpServiceTest {
     System.out.println(total);
     System.out.println(pages);
     System.out.println(page);
+  }
+
+  @Test
+  public void deleteAll() {
+    studentRpService.deleteAll();
+    System.out.println(11);
+  }
+
+  @Test
+  public void generateStudent() {
+    for (int i = 0; i < 2000; i++) {
+      for (int j = 0; j < 100; j++) {
+        List<Student> students = new ArrayList<>(100);
+        for (int k = 0; k < 100; k++) {
+          Student student = new Student();
+          student.setName("小明" + i * j * k);
+          Date currentDate = new Date();
+          student.setUpdated(currentDate);
+          student.setCreated(currentDate);
+          student.setInstId((long) i * 10000 + j * 100 + k);
+          student.setPhone("177" + i * 10000 + j * 100 + k);
+          students.add(student);
+        }
+        studentRpService.saveAll(students);
+        log.info("第i:{},j:{} 批次保存成功", i, j);
+      }
+    }
+  }
+
+  @Test
+  public void findByIds(){
+    Set<Long> ids = new HashSet<>();
+    ids.add(1114829674417958913L);
+    ids.add(1114839996369453110L);
+    ids.add(1114839996369453123L);
+    Iterable<Student> students = studentRpService.findAllById(ids);
+    List<Student> students1 = studentRpService.findByIds(ids);
+    System.out.println(students);
   }
 
 }

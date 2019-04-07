@@ -1,6 +1,8 @@
 package com.hanma56.mongodb.service;
 
 import com.hanma56.mongodb.entity.Student;
+import java.util.List;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,7 +13,7 @@ import org.springframework.data.repository.query.Param;
  * @author catface
  * @date 2019-04-07
  */
-public interface StudentRpService extends MongoRepository<Student, String> {
+public interface StudentRpService extends MongoRepository<Student, Long> {
 
   /**
    * 分页查询
@@ -30,5 +32,13 @@ public interface StudentRpService extends MongoRepository<Student, String> {
    */
   @Query(value = "{'name':{$regex:'^.*?0.*$'},'age':?1}",sort = "{ created : -1 }")
   Page<Student> findByNameLikeSortByCreated(String name, Integer age, Pageable pageable);
+
+  /**
+   * 根据ID列表查询
+   * @param ids
+   * @return
+   */
+  @Query(value = "{'_id':{$in:?0}}")
+  List<Student> findByIds(Set<Long> ids);
 
 }
