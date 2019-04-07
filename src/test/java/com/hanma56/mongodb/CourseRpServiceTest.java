@@ -4,16 +4,19 @@ import com.hanma56.mongodb.entity.Course;
 import com.hanma56.mongodb.service.CourseRpService;
 import java.util.Date;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author catface
  * @date 2019-04-07
  */
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CourseRpServiceTest {
@@ -41,6 +44,22 @@ public class CourseRpServiceTest {
       Course course = optionalCourse.get();
       // 先查询,后修改,使用乐观锁
       courseRpService.save(course);
+      System.out.println(course);
+    }
+  }
+
+  @Test
+  public void updateFail(){
+    Optional<Course> optionalCourse = courseRpService.findById(12L);
+    if (optionalCourse.isPresent()){
+      Course course = optionalCourse.get();
+      course.setVersion(0L);
+      // 先查询,后修改,使用乐观锁
+      try {
+        courseRpService.save(course);
+      }catch (OptimisticLockingFailureException e){
+        log.error("版本号过低!",e);
+      }
       System.out.println(course);
     }
   }
