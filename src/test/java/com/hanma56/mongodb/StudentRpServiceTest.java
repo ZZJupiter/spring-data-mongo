@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -44,7 +46,7 @@ public class StudentRpServiceTest {
     List<Student> students = new ArrayList<>(100);
     for (int i = 0; i < 100; i++) {
       Student temp = new Student();
-      BeanUtils.copyProperties(student,temp);
+      BeanUtils.copyProperties(student, temp);
       students.add(temp);
     }
     studentRpService.saveAll(students);
@@ -55,6 +57,61 @@ public class StudentRpServiceTest {
   public void findAll() {
     List<Student> students = studentRpService.findAll();
     System.out.println(students);
+  }
+
+  @Test
+  public void findByName() {
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    Page<Student> page = studentRpService.findByName("^.*z.*$", pageRequest);
+    long total = page.getTotalElements();
+    long pages = page.getTotalPages();
+    System.out.println(total);
+    System.out.println(pages);
+    System.out.println(page);
+  }
+
+  @Test
+  public void findByNameLike() {
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    Page<Student> page = studentRpService.findByNameLike("z", 12, pageRequest);
+    long total = page.getTotalElements();
+    long pages = page.getTotalPages();
+    System.out.println(total);
+    System.out.println(pages);
+    System.out.println(page);
+  }
+
+  @Test
+  public void findByNameLikeNullName() {
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    Page<Student> page = studentRpService.findByNameLike(null, 12, pageRequest);
+    long total = page.getTotalElements();
+    long pages = page.getTotalPages();
+    System.out.println(total);
+    System.out.println(pages);
+    System.out.println(page);
+  }
+
+  @Test
+  public void findByNameLikeNullAge() {
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    Page<Student> page = studentRpService.findByNameLike("zz", null, pageRequest);
+    long total = page.getTotalElements();
+    long pages = page.getTotalPages();
+    System.out.println(total);
+    System.out.println(pages);
+    System.out.println(page);
+  }
+
+  @Test
+  public void findByNameLikeSortByCreated() {
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    Page<Student> page = studentRpService.findByNameLikeSortByCreated("zz", 12, pageRequest);
+    long total = page.getTotalElements();
+    long pages = page.getTotalPages();
+    System.out.println(total);
+    System.out.println(pages);
+    System.out.println(page);
   }
 
 }

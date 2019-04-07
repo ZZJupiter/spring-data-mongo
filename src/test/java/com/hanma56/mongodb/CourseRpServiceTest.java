@@ -1,15 +1,25 @@
 package com.hanma56.mongodb;
 
 import com.hanma56.mongodb.entity.Course;
+import com.hanma56.mongodb.entity.Namespace;
 import com.hanma56.mongodb.service.CourseRpService;
 import java.util.Date;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -65,12 +75,21 @@ public class CourseRpServiceTest {
   }
 
   @Test
-  public void increment(){
+  public void updateAll(){
     Course course = new Course();
     course.setId(12L);
     // 整个文档更新
     courseRpService.save(course);
     System.out.println(course);
+  }
+
+
+  @Test
+  public void queryOnePage(){
+    PageRequest pageRequest = PageRequest.of(0, 10);
+    // mongo 分页,从第0页开始
+    Page<Course> page = courseRpService.findAll(pageRequest);
+    System.out.println(page);
   }
 
 }

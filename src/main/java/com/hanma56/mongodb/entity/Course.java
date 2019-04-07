@@ -38,4 +38,11 @@ public class Course extends MongoId {
   @Version
   private Long version;
 
+  public static final String COURSE_NAME = "courseName";
+  public static final String CAPACITY = "capacity";
+  public static final String CREATED = "created";
+  public static final String UPDATED = "updated";
+  public static final String VERSION = "version";
+
+
 }
