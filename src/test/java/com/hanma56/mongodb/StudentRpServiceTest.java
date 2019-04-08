@@ -154,6 +154,7 @@ public class StudentRpServiceTest {
     Iterable<Student> students = studentRpService.findAllById(ids);
     List<Student> students1 = studentRpService.findByIds(ids);
     System.out.println(students);
+    System.out.println(students1);
   }
 
 }
